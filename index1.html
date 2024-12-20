@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Application Form</title>
+    <!-- CSS for styling -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+        }
+
+        form label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        form input, form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin-top: 15px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #response {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e8f5e9;
+            color: #388e3c;
+            border-radius: 5px;
+        }
+    </style>
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Online Application Form</h1>
+        <form id="applicationForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required>
+
+            <label for="address">Address:</label>
+            <textarea id="address" name="address" rows="4" required></textarea>
+
+            <button type="submit">Submit</button>
+        </form>
+        <!-- Response Container -->
+        <div id="response"></div>
+    </div>
+
+    <!-- jQuery Script -->
+    <script>
+        $(document).ready(function () {
+            $("#applicationForm").submit(function (event) {
+                event.preventDefault(); // Prevent default form submission
+                
+                // Serialize form data
+                var formData = $(this).serialize();
+
+                // Send data to the PHP file via AJAX
+                $.ajax({
+                    type: "POST",
+                    url: "submit.php",
+                    data: formData,
+                    success: function (response) {
+                        // Display the formatted response
+                        $("#response").html(response);
+                    },
+                    error: function () {
+                        $("#response").html("<p style='color: red;'>An error occurred while submitting the form.</p>");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
